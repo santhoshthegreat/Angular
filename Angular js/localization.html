@@ -1,0 +1,38 @@
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="googlebot" content="noindex, nofollow">
+	<script type="text/javascript" src="./jquery.min.js"></script>
+	<script type="text/javascript" src="./1.4.8/angular.min.js"></script>    
+	<script type="text/javascript" src="./angular-translate.js"></script>
+</head>
+<body ng-app="myApp">
+	<div ng-controller="langController">
+	<h1>{{ 'TITLE' | translate }}</h1>
+	<p>{{ 'FOO' | translate }}</p>
+	<button ng-click="changeLanguage('de')">de</button>
+	<button ng-click="changeLanguage('en')">en</button>	
+	</div>
+	<script>
+	var app = angular.module('myApp', ['pascalprecht.translate']);
+	app.config(['$translateProvider', function ($translateProvider) {
+		$translateProvider.useSanitizeValueStrategy('escapeParameters');
+		$translateProvider.translations('en', {
+		'TITLE': 'Hello',
+		'FOO': 'This is a paragraph'
+		});
+		$translateProvider.translations('de', {
+		'TITLE': 'Hallo',
+		'FOO': 'Dies ist ein Absatz'
+		});
+		$translateProvider.preferredLanguage('en');
+	}]);
+	app.controller('langController', ['$translate', '$scope', function ($translate, $scope) {
+		$scope.changeLanguage = function (langKey) {
+			$translate.use(langKey);
+		};
+  	}]);
+	</script>
+</body>
+</html>
